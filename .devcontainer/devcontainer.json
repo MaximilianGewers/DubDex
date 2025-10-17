@@ -4,9 +4,6 @@
 		"ghcr.io/shyim/devcontainers-features/php:0": {
 			"installComposer": true,
 			"version": "8.4"
-		},
-		"ghcr.io/devcontainers-extra/features/composer:1": {
-			"version": "latest"
 		}
 	}
 }

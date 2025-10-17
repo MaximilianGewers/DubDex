@@ -16,9 +16,9 @@ This comprehensive guide outlines best practices for developing modern web appli
 
 ## Tech Stack
 
-- **Backend Framework**: Laravel 10+ with PHP 8.1+
-- **Database**: MySQL/PostgreSQL with Eloquent ORM
-- **Frontend**: Blade templating engine + Laravel Mix
+- **Backend Framework**: Laravel 12+ with PHP 8.2+
+- **Database**: MariaDB with Eloquent ORM
+- **Frontend**: Blade templating engine + Vite
 - **Authentication**: Laravel Sanctum/Passport
 - **Caching**: Redis/Memcached
 - **Queue System**: Redis/Database queues

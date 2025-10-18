@@ -16,7 +16,7 @@
                 <div class="flex h-full flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow">
                     <div class="space-y-3">
                         <div>
-                            <h2 class="text-2xl font-semibold text-white">{{ $voiceActor['name'] }}</h2>
+                            <a href="{{ route('voice-actors.show', $voiceActor['id']) }}" class="text-2xl font-semibold text-white transition hover:text-sky-300">{{ $voiceActor['name'] }}</a>
                             <p class="text-sm uppercase tracking-wide text-slate-400">{{ $voiceActor['language'] }} Voice</p>
                         </div>
                         <div class="flex gap-4 text-xs text-slate-400">
@@ -34,6 +34,9 @@
                                 </div>
                             @endforeach
                         </div>
+                    </div>
+                    <div class="mt-6">
+                        <a href="{{ route('voice-actors.show', $voiceActor['id']) }}" class="inline-flex text-sm font-semibold text-sky-300 transition hover:text-sky-200">View full profile →</a>
                     </div>
                 </div>
             @endforeach

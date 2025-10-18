@@ -13,6 +13,7 @@ Route::get('/', function () {
 Route::get('/animes', [AnimeController::class, 'index'])->name('animes.index');
 Route::get('/animes/{anime}', [AnimeController::class, 'show'])->name('animes.show');
 Route::get('/voice-actors', [VoiceActorController::class, 'index'])->name('voice-actors.index');
+Route::get('/voice-actors/{voiceActor}', [VoiceActorController::class, 'show'])->name('voice-actors.show');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

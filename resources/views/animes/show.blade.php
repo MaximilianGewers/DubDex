@@ -42,30 +42,13 @@
                             <ul class="space-y-1">
                                 @foreach ($character['voice_actors'] as $voiceActor)
                                     <li class="flex items-center justify-between rounded-lg bg-slate-950/60 px-3 py-2">
-                                        <span class="font-medium text-slate-100">{{ $voiceActor['name'] }}</span>
+                                        <a href="{{ route('voice-actors.show', $voiceActor['id']) }}"
+                                            class="font-medium text-slate-100 transition hover:text-sky-300">{{ $voiceActor['name'] }}</a>
                                         <span class="text-xs text-slate-400">{{ $voiceActor['language'] }}</span>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-        </section>
-
-        <section class="space-y-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-2xl font-semibold text-white">Voice Actors</h2>
-                    <p class="text-sm text-slate-400">The cast behind the characters.</p>
-                </div>
-                <a href="{{ route('voice-actors.index') }}" class="text-sm font-medium text-sky-300 transition hover:text-sky-200">View full voice actor directory →</a>
-            </div>
-            <div class="grid gap-4 md:grid-cols-3">
-                @foreach ($anime['voice_actors'] as $voiceActor)
-                    <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-                        <h3 class="text-lg font-semibold text-white">{{ $voiceActor['name'] }}</h3>
-                        <p class="mt-1 text-xs uppercase tracking-wide text-slate-400">{{ $voiceActor['language'] }}</p>
                     </div>
                 @endforeach
             </div>

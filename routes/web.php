@@ -38,4 +38,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
+Route::get('/imdb/search', [\App\Http\Controllers\ImdbController::class, 'search']);
+Route::get('/imdb/show', [\App\Http\Controllers\ImdbController::class, 'show']);
+
+
 require __DIR__.'/auth.php';

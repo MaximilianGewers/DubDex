@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ScrapeStatus;
 use App\Models\Anime;
 use App\Models\Character;
 use App\Models\VoiceActor;
@@ -37,6 +38,7 @@ class AnimeSeeder extends Seeder
                     'title' => $anime['title'],
                     'synopsis' => $anime['synopsis'],
                     'genres' => $anime['genres'],
+                    'scrape_status' => ScrapeStatus::NEEDS_DATA,
                 ],
             );
 

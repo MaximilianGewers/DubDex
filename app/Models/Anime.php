@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ScrapeStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,6 +26,7 @@ class Anime extends Model
      */
     protected $casts = [
         'genres' => 'array',
+        'scrape_status' => ScrapeStatus::class,
     ];
 
     /**

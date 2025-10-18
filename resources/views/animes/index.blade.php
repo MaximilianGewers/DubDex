@@ -12,33 +12,35 @@
 
         <div class="grid gap-6 md:grid-cols-2">
             @foreach ($animes as $anime)
-                <a
-                    href="{{ route('animes.show', $anime['id']) }}"
-                    class="group flex h-full flex-col justify-between rounded-xl border border-slate-800 bg-slate-900/60 p-6 shadow transition hover:-translate-y-1 hover:border-sky-400/60 hover:shadow-sky-500/10"
-                >
-                    <div class="space-y-4">
+                <x-resource-card :href="route('animes.show', $anime['id'])">
+                    <x-slot name="header">
                         <div class="flex items-center justify-between gap-2">
                             <h2 class="text-2xl font-semibold text-white group-hover:text-sky-300">{{ $anime['title'] }}</h2>
                             <span class="rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-300">
                                 {{ str_pad(count($anime['characters']), 2, '0', STR_PAD_LEFT) }} Characters
                             </span>
                         </div>
-                        <p class="text-sm text-slate-300">{{ $anime['synopsis'] }}</p>
-                        <div class="flex flex-wrap gap-2 text-xs font-medium">
-                            @foreach ($anime['genres'] as $genre)
-                                <span class="rounded-full bg-slate-800/80 px-3 py-1 text-slate-300">{{ $genre }}</span>
-                            @endforeach
-                        </div>
+                    </x-slot>
+
+                    <p class="text-sm text-slate-300">{{ $anime['synopsis'] }}</p>
+
+                    <div class="flex flex-wrap gap-2 text-xs font-medium">
+                        @foreach ($anime['genres'] as $genre)
+                            <span class="rounded-full bg-slate-800/80 px-3 py-1 text-slate-300">{{ $genre }}</span>
+                        @endforeach
                     </div>
-                    <div class="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-400">
-                        <div class="flex items-center gap-2">
-                            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-                            {{ count($anime['voice_actors']) }} voice actors
+
+                    <x-slot name="footer">
+                        <div class="flex flex-wrap items-center gap-3 text-xs text-slate-400">
+                            <div class="flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                                {{ count($anime['voice_actors']) }} voice actors
+                            </div>
+                            <span class="text-slate-600">•</span>
+                            <span class="transition group-hover:text-sky-300">View characters →</span>
                         </div>
-                        <span class="text-slate-600">•</span>
-                        <span class="transition group-hover:text-sky-300">View characters →</span>
-                    </div>
-                </a>
+                    </x-slot>
+                </x-resource-card>
             @endforeach
         </div>
     </div>

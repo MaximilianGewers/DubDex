@@ -3,7 +3,9 @@
 @section('content')
     <div class="space-y-12">
         <div class="space-y-6">
-            <a href="{{ route('voice-actors.index') }}" class="text-sm font-medium text-sky-300 transition hover:text-sky-200">← Back to voice actor directory</a>
+            <x-back-link :href="route('voice-actors.index')">
+                Back to voice actor directory
+            </x-back-link>
             <div class="space-y-4">
                 <x-section-header :title="$voiceActor['name']"
                     :subtitle="sprintf('Explore the characters and anime credits voiced by %s.', $voiceActor['name'])" />

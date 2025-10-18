@@ -2,46 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anime;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 
 class AnimeController extends Controller
 {
     public function index(): View
     {
-        $data = config('anime');
+        $animes = Anime::query()
+            ->with(['characters.voiceActors'])
+            ->orderBy('title')
+            ->get()
+            ->map(function (Anime $anime): array {
+                $characterDetails = $anime->characters
+                    ->map(function ($character) {
+                        $voiceActorDetails = $character->voiceActors
+                            ->map(fn ($voiceActor) => [
+                                'id' => $voiceActor->slug,
+                                'name' => $voiceActor->name,
+                                'language' => $voiceActor->language,
+                            ])
+                            ->values();
 
-        $characters = collect($data['characters']);
-        $voiceActors = collect($data['voice_actors']);
+                        return [
+                            'id' => $character->slug,
+                            'name' => $character->name,
+                            'role' => $character->role,
+                            'voice_actors' => $voiceActorDetails->toArray(),
+                        ];
+                    })
+                    ->values();
 
-        $animes = collect($data['animes'])->map(function (array $anime, string $animeId) use ($characters, $voiceActors) {
-            $characterDetails = collect($anime['character_ids'])
-                ->map(function (string $characterId) use ($characters) {
-                    $character = $characters->get($characterId);
+                $voiceActorDetails = Collection::make($characterDetails)
+                    ->flatMap(fn (array $character) => $character['voice_actors'])
+                    ->unique(fn (array $voiceActor) => $voiceActor['id'])
+                    ->values();
 
-                    return array_merge($character, [
-                        'id' => $characterId,
-                    ]);
-                })
-                ->values();
-
-            $voiceActorDetails = $characterDetails
-                ->flatMap(fn (array $character) => $character['voice_actor_ids'])
-                ->unique()
-                ->map(function (string $voiceActorId) use ($voiceActors) {
-                    $voiceActor = $voiceActors->get($voiceActorId);
-
-                    return array_merge($voiceActor, [
-                        'id' => $voiceActorId,
-                    ]);
-                })
-                ->values();
-
-            return array_merge($anime, [
-                'id' => $animeId,
-                'characters' => $characterDetails,
-                'voice_actors' => $voiceActorDetails,
-            ]);
-        })->values();
+                return [
+                    'id' => $anime->slug,
+                    'title' => $anime->title,
+                    'synopsis' => $anime->synopsis,
+                    'genres' => $anime->genres ?? [],
+                    'characters' => $characterDetails->toArray(),
+                    'voice_actors' => $voiceActorDetails->toArray(),
+                ];
+            })
+            ->values();
 
         return view('animes.index', [
             'animes' => $animes,
@@ -50,49 +57,44 @@ class AnimeController extends Controller
 
     public function show(string $anime): View
     {
-        $data = config('anime');
+        $animeModel = Anime::query()
+            ->where('slug', $anime)
+            ->with(['characters.voiceActors'])
+            ->firstOrFail();
 
-        $animeData = $data['animes'][$anime] ?? null;
-
-        if ($animeData === null) {
-            abort(404);
-        }
-
-        $characters = collect($data['characters']);
-        $voiceActors = collect($data['voice_actors']);
-
-        $characterDetails = collect($animeData['character_ids'])
-            ->map(function (string $characterId) use ($characters, $voiceActors) {
-                $character = $characters->get($characterId);
-
-                $voiceActorDetails = collect($character['voice_actor_ids'])
-                    ->map(function (string $voiceActorId) use ($voiceActors) {
-                        $voiceActor = $voiceActors->get($voiceActorId);
-
-                        return array_merge($voiceActor, [
-                            'id' => $voiceActorId,
-                        ]);
-                    })
+        $characterDetails = $animeModel->characters
+            ->map(function ($character) {
+                $voiceActorDetails = $character->voiceActors
+                    ->map(fn ($voiceActor) => [
+                        'id' => $voiceActor->slug,
+                        'name' => $voiceActor->name,
+                        'language' => $voiceActor->language,
+                    ])
                     ->values();
 
-                return array_merge($character, [
-                    'id' => $characterId,
-                    'voice_actors' => $voiceActorDetails,
-                ]);
+                return [
+                    'id' => $character->slug,
+                    'name' => $character->name,
+                    'role' => $character->role,
+                    'voice_actors' => $voiceActorDetails->toArray(),
+                ];
             })
             ->values();
 
-        $voiceActorDetails = $characterDetails
+        $voiceActorDetails = Collection::make($characterDetails)
             ->flatMap(fn (array $character) => $character['voice_actors'])
-            ->unique('id')
+            ->unique(fn (array $voiceActor) => $voiceActor['id'])
             ->values();
 
         return view('animes.show', [
-            'anime' => array_merge($animeData, [
-                'id' => $anime,
-                'characters' => $characterDetails,
-                'voice_actors' => $voiceActorDetails,
-            ]),
+            'anime' => [
+                'id' => $animeModel->slug,
+                'title' => $animeModel->title,
+                'synopsis' => $animeModel->synopsis,
+                'genres' => $animeModel->genres ?? [],
+                'characters' => $characterDetails->toArray(),
+                'voice_actors' => $voiceActorDetails->toArray(),
+            ],
         ]);
     }
 }

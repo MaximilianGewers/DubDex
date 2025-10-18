@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnimeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VoiceActorController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -15,9 +16,10 @@ Route::get('/animes/{anime}', [AnimeController::class, 'show'])->name('animes.sh
 Route::get('/voice-actors', [VoiceActorController::class, 'index'])->name('voice-actors.index');
 Route::get('/voice-actors/{voiceActor}', [VoiceActorController::class, 'show'])->name('voice-actors.show');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('dashboard/animes', [DashboardController::class, 'store'])->name('dashboard.animes.store');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

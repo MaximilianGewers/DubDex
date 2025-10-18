@@ -17,6 +17,7 @@ class VoiceActor extends Model
         'slug',
         'name',
         'language',
+        'description',
     ];
 
     /**

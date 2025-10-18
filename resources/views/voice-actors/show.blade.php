@@ -9,6 +9,9 @@
             <div class="space-y-4">
                 <x-section-header :title="$voiceActor['name']"
                     :subtitle="sprintf('Explore the characters and anime credits voiced by %s.', $voiceActor['name'])" />
+                @if (!empty($voiceActor['description']))
+                    <p class="text-base text-slate-300 max-w-3xl">{{ $voiceActor['description'] }}</p>
+                @endif
                 <div class="flex flex-wrap gap-2 text-xs font-semibold">
                     <span class="rounded-full bg-slate-800 px-3 py-1 uppercase tracking-wide text-slate-200">{{ $voiceActor['language'] }}
                         Voice</span>

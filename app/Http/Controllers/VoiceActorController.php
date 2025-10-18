@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\VoiceActor;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Collection;
 
 class VoiceActorController extends Controller
 {
@@ -15,33 +14,25 @@ class VoiceActorController extends Controller
             ->orderBy('name')
             ->get()
             ->map(function (VoiceActor $voiceActor): ?array {
-                $roles = $voiceActor->characters
-                    ->map(function ($character) {
-                        $anime = $character->anime;
+                $characters = $voiceActor->characters;
 
-                        return [
-                            'character_id' => $character->slug,
-                            'character_name' => $character->name,
-                            'character_role' => $character->role,
-                            'anime_id' => $anime?->slug ?? '',
-                            'anime_title' => $anime?->title ?? 'Unknown Anime',
-                        ];
-                    })
-                    ->values();
-
-                if ($roles->isEmpty()) {
+                if ($characters->isEmpty()) {
                     return null;
                 }
 
-                $roleCollection = Collection::make($roles);
+                $animeCount = $characters
+                    ->map(fn ($character) => $character->anime?->slug)
+                    ->filter()
+                    ->unique()
+                    ->count();
 
                 return [
                     'id' => $voiceActor->slug,
                     'name' => $voiceActor->name,
                     'language' => $voiceActor->language,
-                    'roles' => $roleCollection->toArray(),
-                    'anime_count' => $roleCollection->pluck('anime_id')->filter()->unique()->count(),
-                    'character_count' => $roleCollection->count(),
+                    'description' => $voiceActor->description,
+                    'anime_count' => $animeCount,
+                    'character_count' => $characters->count(),
                 ];
             })
             ->filter()
@@ -86,6 +77,7 @@ class VoiceActorController extends Controller
                 'id' => $voiceActorModel->slug,
                 'name' => $voiceActorModel->name,
                 'language' => $voiceActorModel->language,
+                'description' => $voiceActorModel->description,
                 'anime_count' => $animeCredits->count(),
                 'character_count' => $roles->count(),
                 'animes' => $animeCredits->toArray(),

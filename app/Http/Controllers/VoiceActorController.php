@@ -51,4 +51,46 @@ class VoiceActorController extends Controller
             'voiceActors' => $voiceActors,
         ]);
     }
+
+    public function show(string $voiceActor): View
+    {
+        $voiceActorModel = VoiceActor::query()
+            ->where('slug', $voiceActor)
+            ->with(['characters.anime'])
+            ->firstOrFail();
+
+        $roles = $voiceActorModel->characters
+            ->map(function ($character) {
+                $anime = $character->anime;
+
+                return [
+                    'id' => $character->slug,
+                    'name' => $character->name,
+                    'role' => $character->role,
+                    'anime' => [
+                        'id' => $anime?->slug ?? '',
+                        'title' => $anime?->title ?? 'Unknown Anime',
+                    ],
+                ];
+            })
+            ->values();
+
+        $animeCredits = $roles
+            ->pluck('anime')
+            ->filter(fn (array $anime) => filled($anime['id']))
+            ->unique(fn (array $anime) => $anime['id'])
+            ->values();
+
+        return view('voice-actors.show', [
+            'voiceActor' => [
+                'id' => $voiceActorModel->slug,
+                'name' => $voiceActorModel->name,
+                'language' => $voiceActorModel->language,
+                'anime_count' => $animeCredits->count(),
+                'character_count' => $roles->count(),
+                'animes' => $animeCredits->toArray(),
+                'roles' => $roles->toArray(),
+            ],
+        ]);
+    }
 }

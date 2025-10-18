@@ -5,12 +5,8 @@
         <div class="space-y-6">
             <a href="{{ route('voice-actors.index') }}" class="text-sm font-medium text-sky-300 transition hover:text-sky-200">← Back to voice actor directory</a>
             <div class="space-y-4">
-                <div>
-                    <h1 class="text-4xl font-bold tracking-tight text-white">{{ $voiceActor['name'] }}</h1>
-                    <p class="mt-3 max-w-3xl text-lg text-slate-300">
-                        Explore the characters and anime credits voiced by {{ $voiceActor['name'] }}.
-                    </p>
-                </div>
+                <x-section-header :title="$voiceActor['name']"
+                    :subtitle="sprintf('Explore the characters and anime credits voiced by %s.', $voiceActor['name'])" />
                 <div class="flex flex-wrap gap-2 text-xs font-semibold">
                     <span class="rounded-full bg-slate-800 px-3 py-1 uppercase tracking-wide text-slate-200">{{ $voiceActor['language'] }}
                         Voice</span>

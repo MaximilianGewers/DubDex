@@ -5,10 +5,7 @@
         <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div class="space-y-4">
                 <a href="{{ route('animes.index') }}" class="text-sm font-medium text-sky-300 transition hover:text-sky-200">← Back to all animes</a>
-                <div>
-                    <h1 class="text-4xl font-bold tracking-tight text-white">{{ $anime['title'] }}</h1>
-                    <p class="mt-3 max-w-3xl text-lg text-slate-300">{{ $anime['synopsis'] }}</p>
-                </div>
+                <x-section-header :title="$anime['title']" :subtitle="$anime['synopsis']" />
                 <div class="flex flex-wrap gap-2 text-xs font-semibold">
                     @foreach ($anime['genres'] as $genre)
                         <span class="rounded-full bg-slate-800 px-3 py-1 uppercase tracking-wide text-slate-300">{{ $genre }}</span>

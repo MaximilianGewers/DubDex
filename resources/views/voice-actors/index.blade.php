@@ -3,7 +3,9 @@
 @section('content')
     <div class="space-y-10">
         <div class="max-w-3xl">
-            <a href="{{ route('animes.index') }}" class="text-sm font-medium text-sky-300 transition hover:text-sky-200">← Browse animes</a>
+            <x-back-link :href="route('animes.index')">
+                Browse animes
+            </x-back-link>
             <h1 class="mt-4 text-4xl font-bold tracking-tight text-white">Voice Actor Directory</h1>
             <p class="mt-3 text-lg text-slate-300">
                 Discover the multilingual talent voicing your favourite characters. Each profile shows the characters they portray

@@ -7,8 +7,8 @@ use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+    return redirect()->route('animes.index'); 
+})->name('index');
 
 Route::get('/animes', [AnimeController::class, 'index'])->name('animes.index');
 Route::get('/animes/{anime}', [AnimeController::class, 'show'])->name('animes.show');

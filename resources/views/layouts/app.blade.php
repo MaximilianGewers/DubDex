@@ -13,7 +13,7 @@
     <body class="min-h-screen bg-slate-950 text-slate-100">
         <header class="border-b border-slate-800 bg-slate-950/70 backdrop-blur">
             <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-6">
-                <a href="{{ route('home') }}" class="text-lg font-semibold tracking-tight text-sky-400 hover:text-sky-300">
+                <a href="{{ route('index') }}" class="text-lg font-semibold tracking-tight text-sky-400 hover:text-sky-300">
                     DubDex
                 </a>
                 <nav class="flex items-center gap-4 text-sm font-medium">

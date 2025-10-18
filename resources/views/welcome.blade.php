@@ -1,3 +1,5 @@
+{{-- TODO - remove, but has hosting example --}}
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

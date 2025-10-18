@@ -20,7 +20,7 @@
                         <div class="flex items-center justify-between gap-2">
                             <h2 class="text-2xl font-semibold text-white transition group-hover:text-sky-300">{{ $voiceActor['name'] }}</h2>
                             <span class="rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-300">
-                                {{ str_pad($voiceActor['anime_count'], 2, '0', STR_PAD_LEFT) }} Anime
+                                {{ $voiceActor['anime_count'] }} Anime
                             </span>
                         </div>
                         <p class="text-sm uppercase tracking-wide text-slate-400">{{ $voiceActor['language'] }} Voice</p>
@@ -32,7 +32,7 @@
                         <div class="flex flex-wrap items-center gap-3 text-xs text-slate-400">
                             <div class="flex items-center gap-2">
                                 <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-                                {{ str_pad($voiceActor['character_count'], 2, '0', STR_PAD_LEFT) }} characters
+                                {{ $voiceActor['character_count'] }} characters
                             </div>
                             <span class="text-slate-600">•</span>
                             <span class="transition group-hover:text-sky-300">View profile →</span>

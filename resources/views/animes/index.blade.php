@@ -17,7 +17,7 @@
                         <div class="flex items-center justify-between gap-2">
                             <h2 class="text-2xl font-semibold text-white group-hover:text-sky-300">{{ $anime['title'] }}</h2>
                             <span class="rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-300">
-                                {{ str_pad(count($anime['characters']), 2, '0', STR_PAD_LEFT) }} Characters
+                                {{count($anime['characters']) }} Characters
                             </span>
                         </div>
                     </x-slot>
